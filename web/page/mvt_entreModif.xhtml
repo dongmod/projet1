@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+      <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <f:view>
+                <f:metadata>
+                    <f:viewParam name="param_liste_doc" value="#{mvtStock.param_docentete}"/>
+                </f:metadata> 
+                    <h:form id="documents">
+                          <p:growl globalOnly="true" id="msg"  />
+                          <b:panelGrid columns="4">
+                            <h:outputLabel value=" dépot    :"/>
+                            <b:selectOneMenu disabled="#{mvtStock.griserChamp}"   value="#{mvtStock.modif_depot}">
+                                     <f:selectItems value="#{mvtStock.listDepot}" /> 
+                                </b:selectOneMenu>
+                            
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value="Journal    :"/>
+                            <b:selectOneMenu disabled="#{mvtStock.griserChamp}" id="jnal" placeholder="code journal" value="#{mvtStock.modif_journal}" > 
+                                <f:selectItems value="#{mvtStock.listCodejournal}" /> 
+                               </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>  
+                                <h:outputLabel  value="Tiers:" />
+                                <b:selectOneMenu  disabled="#{mvtStock.griserChamp}" id="tier" value="#{mvtStock.modift_tiers}">
+                                    <f:selectItems value="#{mvtStock.listetiers}" /> 
+                               </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>
+                                <h:outputLabel  value="Collaborateur" />
+                                <b:selectOneMenu  id="collab" value="#{mvtStock.modif_collaborateur}"  disabled="#{mvtStock.griserChamp}">
+                                    <f:selectItems value="#{mvtStock.getlisteCollaborateur()}"/> 
+                               </b:selectOneMenu>
+                                <h:outputLabel/>
+                                 <h:outputLabel/>
+                                <h:commandButton value="Valider" action="#{mvtStock.enregistrerDocEntete()}">
+                                    <p:ajax   process="@form" rendered="@form"  update=""/>
+                                </h:commandButton>
+                        </b:panelGrid>
+                        </h:form>
+                            <h:form>
+                                <p:dataTable value="#{mvtStock.liste_des_doc_ligne}" var="item" id="montableau" scrollable="true" scrollHeight="200">
+                            <f:facet name="header"><h:outputLabel value="prix de vente"></h:outputLabel>         
+                                 <p:inputText id="pu"   value="#{mvtStock.modif_privente}" onkeyup="verif_nombre(this)"  required="true"  requiredMessage="veuillez remplir ce champ!"/>
+                                 <h:outputLabel style="margin-left: 15px" value="Quantité"></h:outputLabel> 
+                                 <h:inputText value="#{mvtStock.modif_qte}" id="Qte" onkeyup="verif_nombre(this)"  required="true"  requiredMessage="veuillez remplir ce champ!" >
+                                     <p:ajax event="blur"  update="msgQte" />
+                                     <p:message id="msgQte" for="Qte" /> 
+                                 </h:inputText>
+                                 <h:commandButton value="Modifier" style="width: 60px; margin-left: 10px" action="#{mvtStock.modif_docligne()}">
+                                 <p:ajax    update="montableau"/>
+                                 </h:commandButton>
+                                 <h:link value="Retour" style="width: 60px;float:right" outcome="Liste_des_documents">
+                                 </h:link>
+                                 <p:growl globalOnly="true"/>
+                             </f:facet>
+                                   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="ARdesignation"/>
+                            </f:facet>
+                            <h:outputText value="#{item.ARdesignation}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLDateModification"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLDateModification}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLMargeTotale"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLMargeTotale}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLMargeUnitaire"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLMargeUnitaire}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLPrixVenteTTC"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLPrixVenteTTC}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLQte"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLQte}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLTotalTTC"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLTotalTTC}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLtauxtaxe"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLtauxtaxe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="DLtotaltaxe"/>
+                            </f:facet>
+                            <h:outputText value="#{item.DLtotaltaxe}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Depot"/>
+                            </f:facet>
+                            <h:outputText value="#{item.depot}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Utilisateur"/>
+                            </f:facet>
+                            <h:outputText value="#{item.utilisateur}"/>
+                        </p:column>
+                    <p:column class="lagercolumn" exportable="false" headerText="modifier">
+                        <h:commandButton value="modifier" style="width: 60px" 
+                        action="#{mvtStock.param_modif_docligne(item.dlId)}"/>
+                    </p:column>
+                            </p:dataTable>
+                            </h:form>
+                </f:view>
+        <script src="styljs.js">
+        </script>
+                </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,23 @@
+
+#contenu1{
+    
+    font-weight: bold;
+    margin-top: 5%;
+    margin-left: 5%;
+    background-repeat: no-repeat;
+    background-image: url(resources/images/images.png);
+    color: white;
+width:50%; 
+height:100%;
+display:inline-block; 
+}
+
+img{
+ 
+width:50%; 
+height:100%;
+display:inline-block; 
+}
+
+
+          

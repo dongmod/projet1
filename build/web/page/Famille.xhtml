@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"      
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+         
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                
+                
+                <h:form >
+                    <p:fieldset collapsed="true"  legend="nouvelle famille" toggleable="true">
+                        <h:panelGrid  columns="3" >
+                            <h:outputLabel  value="Code :" />
+                            <b:inputText id="code_f" value="#{familleBean.code_f}" placeholder="code" required="true" requiredMessage="veuillez entrer le code de la famille" maxlength="20">
+                                <f:ajax event="blur" render="codeMessage" />
+                                <f:validator binding="#{familleExiste}" />
+                                <f:validateLength minimum="3"/>
+                            </b:inputText>
+                            <p:message id="codeMessage" for="code_f" />
+                            <h:outputLabel  value="Libellé :" />
+                            <b:inputText  id="nom_f" value="#{familleBean.nom_f}" placeholder="libelle" required="true" requiredMessage="veuillez entrer le libelle de la famille" maxlength="50">
+                                <f:ajax event="blur" render="nomMessage" /> 
+                                <f:validateLength minimum="3"/>
+                            </b:inputText>
+                            <p:message id="nomMessage" for="nom_f" /> 
+                        </h:panelGrid> 
+                        <p:growl globalOnly="true"  />
+                            <b:row>
+                                <b:column span="1" offset="45">
+                                  <b:commandButton value="Enregistrer" look="primary" icon="save"  action="#{familleBean.enregistrerFamille()}" />
+                                </b:column>
+                                <b:column span="1">
+                                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                                </b:column>
+                            </b:row>
+                       
+                    </p:fieldset>
+              </h:form>
+                <b:panel title="liste des familles " look="primary" collapsible="false">
+                <f:view>
+                    <h:form>   
+                         
+              <p:dataTable value="#{familleBean.mesFamilles()}" var="item" id="montableau" paginator="true" rows="10"   paginatorPosition="bottom" >
+                  
+                  <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Code"/>
+                                </f:facet>
+                                <h:outputText value="#{item.FACodeFamille}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Designation"/>
+                                </f:facet>
+                                <h:outputText value="#{item.FADesignation}"/>
+                            </p:column>
+                  <p:column class="lagercolumn" exportable="false">
+                                        <f:facet name="header">
+                                            <h:outputText value="Modifier"/>
+                                        </f:facet>
+                                        <h:link value="modifier" outcome="FamilleModifier">
+                                            <f:param value="#{item.faId}" name="id_paramFamille"/>
+                                        </h:link>
+                                        
+                  </p:column>
+                  <p:column class="lagercolumn" exportable="false">
+                                          <f:facet name="header">
+                                            <h:outputText value="Suppression"/>
+                                        </f:facet>
+                                <p:commandButton type="button" onclick="PF(#{item.faId}).show()" icon="ui-icon-trash"/>
+                                <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.faId}">
+                                    <p:commandButton value="oui" onclick="PF(#{item.faId}).hide();" actionListener="#{familleBean.supprimerFamille(item.faId)}" update="montableau " oncomplete="PF('cd').hide()"/>
+                                   <p:commandButton value="non" onclick="PF(#{item.faId}).hide();" type="button" />
+                                </p:confirmDialog>
+                                    </p:column>
+                                </p:dataTable>  
+                            <p:panel header="Exportation">  
+                            <p:commandButton ajax="false" icon="ui-icon-print" >
+                            <p:dataExporter type="pdf" target="montableau" fileName="export"/>
+                            </p:commandButton>
+                            </p:panel>  
+                            </h:form>
+                        </f:view>
+                    </b:panel>
+        </ui:define>
+      </ui:composition>
+            
+        
+     </h:body>
+</html>
+

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      
+      >
+      
+    <h:head>
+       <link href="styl.css" type="text/css" rel="stylesheet"/>
+       <link rel="stylesheet" type="text/css" href="assets/css/demo.css"/>
+    </h:head>
+    <h:body  >
+        
+            
+            
+        
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu" id="body_agence" >
+                <h:form id="formcoll"> 
+                    <p:fieldset  collapsed="true" legend="ajouter une agence" toggleable="true">
+                        <h:panelGrid columns="3">    
+                             <h:outputLabel for="nom"  > Nom:    </h:outputLabel>
+                             <b:inputText value="#{agenceBean.nom}" id="nom" placeholder="nom" required="true" requiredMessage="veuillez entrer le nom de l'agence" maxlength="50" >
+                              <f:ajax event="blur" render="nomMessage" />
+                              <f:validator binding="#{agenceExiste}" />
+                              <f:validateLength minimum="3"/>
+                             </b:inputText>
+                             <p:message id="nomMessage" for="nom" /> 
+                             
+                             <!--h:outputLabel for="Adresse"  > Adresse    </h:outputLabel>
+                             <b:inputText value="#{agenceBean.adresse}" id="adressemessage" placeholder="Adresse" required="true" requiredMessage="veuillez entrer l'adresse de l'agence" maxlength="50" >
+                              <f:ajax event="blur" render="adresmessage" />
+                              <f:validateLength minimum="3"/>
+                             </b:inputText>
+                           <p:message id="adresmessage" for="adressemessage" /> 
+                           
+                           <h:outputLabel for="Ville"  > Ville    </h:outputLabel>
+                           <b:inputText value="#{agenceBean.ville}" id="villemessage" placeholder="Ville" required="true" requiredMessage="veuillez entrer la ville de l'agence" maxlength="50" >
+                              <f:ajax event="blur" render="vilMessage" />
+                              <f:validateLength minimum="3"/>
+                             </b:inputText>
+                           <p:message id="vilMessage" for="villemessage" /> 
+                           
+                           <h:outputLabel for="Téléphone"  > Téléphone    </h:outputLabel>
+                           <b:inputText value="#{agenceBean.tel}" id="teleemessage" placeholder="Téléphone" required="true" requiredMessage="veuillez entrer le téléphone de l'agence" maxlength="50" >
+                              <f:ajax event="blur" render="telMessage" />
+                              <f:validateLength minimum="3"/>
+                             </b:inputText>
+                           <p:message id="telMessage" for="teleemessage" /--> 
+                           
+                            </h:panelGrid> 
+                            <p:growl globalOnly="true"  />                            
+                            <b:row>
+                                <b:column span="2" >
+                                  <b:commandButton value="Enregistrer" look="primary" icon="save"  action="#{agenceBean.enregistrerAgence()}" />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                                </b:column>
+                            </b:row>
+                        </p:fieldset>
+                     </h:form>
+                      
+        
+                        <f:view>
+                            <h:form>
+                                <b:panel title="liste des agence " look="primary" class="datagence" collapsible="false" > 
+
+                                    <p:dataTable value="#{agenceBean.listeAgence()}" var="item" id="montableau" paginator="true" rows="10" >
+
+                                      <p:column>
+                                         <f:facet name="header">
+                                             <h:outputText value="Nom"/>
+                                         </f:facet>
+                                         <h:outputText value="#{item.AGnom}"/>
+                                     </p:column>
+                                        <!--p:column>
+                                    <f:facet name="header">
+                                             <h:outputText value="ville"/>
+                                         </f:facet>
+                                            <h:outputText value="{item.ville}"/>
+                                     </p:column>
+                                        
+                                        <p:column>
+                                         <f:facet name="header">
+                                             <h:outputText value="Adresse"/>
+                                         </f:facet>
+                                            <h:outputText value="{item.adresse}"/>
+                                     </p:column>
+                                        <p:column>
+                                         <f:facet name="header">
+                                             <h:outputText value="Telemphone"/>
+                                         </f:facet>
+                                            <h:outputText value="{item.tel}"/>
+                                     </p:column-->
+                                        <p:column class="lagercolumn"  exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="Modification"/>
+                        </f:facet>
+                        <h:link value="modifier" outcome="agenceModifier">
+                            <f:param value="#{item.agId}" name="id_paramAgence"/>
+                        </h:link>
+                    </p:column>
+                                        <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                        <h:outputText value="Suppression"/>
+                    </f:facet>
+                        <p:commandButton type="button" onclick="PF(#{item.agId}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.agId}">
+                            <p:commandButton value="oui" onclick="PF(#{item.agId}).hide()" actionListener="#{agenceBean.supprimerAgence(item.agId)}" update="montableau " oncomplete="PF(#{item.agId}).hide()"/>
+                            <p:commandButton value="non" onclick="PF(#{item.agId}).hide()" type="button" />
+                                </p:confirmDialog>
+                    </p:column>
+                                 </p:dataTable>   
+ <p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>
+                                </b:panel>
+                            </h:form>
+                        </f:view>
+        </ui:define>
+      </ui:composition>
+           
+     </h:body>
+    
+</html>

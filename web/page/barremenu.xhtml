@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+         <!--b:navBar brand="GESCOM"  id="navBar" inverse="true" -->
+         <b:navBar brand="GESCOM"  id="navBar">
+            
+            <b:navbarLinks > 
+         
+           <b:dropMenu value="FICHIER" >
+          
+                <b:dropMenu value="Autorisation d'accès" >
+                    <b:navLink value="Gestion des utilisateurs" href="GestionUser.xhtml" icon="user" rendered="#{userBean.adm}" ></b:navLink>
+                    <b:navLink value="Modifier mot de passe" icon="key" href="ModifierMDP.xhtml"></b:navLink> 
+                </b:dropMenu>
+               </b:dropMenu>
+               
+               
+                
+            <b:dropMenu value="STRUCTURE">
+                   <b:dropMenu value="Agences et Dépots" >
+                    <b:navLink value="Agences"  href="agence.xhtml" ></b:navLink>
+                    <b:navLink value="Dépots" href="Depot.xhtml"></b:navLink>
+                  </b:dropMenu>
+
+                    <b:navLink value="Collaborateurs" href="collaborateur.xhtml"></b:navLink>
+                    <b:navLink value="Code Journal" href="Codejournal.xhtml" rendered="#{userBean.adm}"></b:navLink>
+                    <b:navLink value="Caisse" href="caisse.xhtml"></b:navLink>
+                    <b:navLink value="Familles" href="Famille.xhtml"></b:navLink>
+                    <b:navLink value="Articles" href="article.xhtml"></b:navLink>
+                    <b:navLink value="Comptes Generaux" href="CompteGeneral.xhtml"></b:navLink>
+                    <b:navLink value="Tiers" href="Tiers.xhtml"></b:navLink>
+             </b:dropMenu>
+         <b:dropMenu value="TRAITEMENT" >
+                        <b:dropMenu value="Documents de vente" >
+                            <b:navLink value="bon de commande" href="#"></b:navLink>
+                            <b:navLink value="Factures" href="facture.xhtml"></b:navLink>
+                         </b:dropMenu>
+                        <b:dropMenu value="Documents des Achats" >
+                            <b:navLink value="bon de commande" href="#"></b:navLink>
+                            <b:navLink value="Facture D'achat" href="#"></b:navLink>
+                         </b:dropMenu>
+                        <b:dropMenu value="Documents des Stocks" >
+                            <b:navLink value="Mouvement d'entrée" href="Liste_des_documents.xhtml"></b:navLink>
+                            <b:navLink value="Mouvement de sortie" href="mvt_sortie.xhtml"></b:navLink>
+                            <b:navLink value="Mouvement de transfert" href="#"></b:navLink>
+                            <b:navLink value="Inventaire" href="#"></b:navLink>
+                         </b:dropMenu>
+             
+             
+             
+             </b:dropMenu> 
+                                  
+    </b:navbarLinks>
+            <h:form >
+                <b:commandButton value="Deconnexion"  action="#{userBean.logout()}" look="danger"  style="margin-left: 50%">
+                        <i class="fa fa-power-off" aria-hidden="true"> </i>                        
+                    </b:commandButton> 
+           </h:form>
+            
+           
+ </b:navBar>
+        
+        
+        
+        
+        
+        
+        
+          <!--p:confirmDialog header="modifier le mot passe" severity="alert" widgetVar="cd">
+                <h:form id="formcoll">
+            <p:fieldset legend="creation d'utilisateur" toggleable="true">
+                <h:panelGrid columns="3">
+  
+                        <h:outputLabel/> 
+                            <h:outputLabel  value="Ancien mot de passe :" />                           
+                            <b:inputText  id="ref" value="#{authentificationBean.login}" required="true" requiredMessage="ce champ ne peut pas ètre null" maxlength="50">
+                                <f:ajax event="blur" render="refMessage" />
+                                <f:validator binding="#{articleExiste}" />
+                            </b:inputText>
+                            <p:message id="refMessage" for="ref" /> 
+                            
+                            <h:outputLabel  value="Nouveau mot de passe :" />
+                            <b:inputText value="#{authentificationBean.password}" required="true" id="id2" requiredMessage="veuillez remplir ce champ!">
+                                <f:ajax event="blur" render="desigMessage" />
+                            </b:inputText>
+                            <p:message id="desigMessage" for="id2" />
+                            
+                            <h:outputLabel  value="Confirmer nouveau mot de passe :" />                           
+                            <b:inputText value="#{authentificationBean.nom}" required="true" id="id3" requiredMessage="veuillez remplir ce champ!">
+                                <f:ajax event="blur" render="codebaremessage" />
+                            </b:inputText>
+                            <p:message for="id3" id="codebaremessage" />
+                        
+                                <b:column span="2" >
+                                  <b:commandButton value="Enregistrer" look="success" icon="ui-icon-disk"/>
+                                </b:column>
+                                <b:column span="2">
+                                    <b:commandButton value="Annuler" action= "barremenu.xhtml?faces-redirect=true" look="danger" />
+                                </b:column>
+                        </h:panelGrid>
+                         <p:growl globalOnly="true"/>
+                             </p:fieldset>
+                        </h:form>
+                </p:confirmDialog-->
+        
+          
+        
+        
+        <div id="centre">
+            <ui:insert name="contenu" >
+                
+                <p:outputLabel value="#{utilisateurBean.username}"/>
+            </ui:insert>
+        </div>
+    </h:body>
+</html>
+

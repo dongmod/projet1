@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+         <h:form>
+        <p:fieldset collapsed="true" legend="ajouter un utilisateur" toggleable="true" >
+       
+           
+            <h:panelGrid columns="3">
+          <h:outputText value="Utilisateur :         "  />  
+          <b:inputText  placeholder="nom d'utilisateur" id="username" value="#{userBean.username}" required="true" requiredMessage="veuillez entrer le nom de l'utilisateur" >
+              <f:ajax event="blur" render="nomMessage" />
+              <f:validator binding="#{userExiste}" />
+            <f:facet name="prepend">
+              <b:icon name="user" />
+            </f:facet>
+          </b:inputText  >
+          <p:message id="nomMessage" for="username" /> 
+          
+          <h:outputText value="Mot de passe"/>      
+          <b:inputSecret id="pass" placeholder="Mot de passe"  value="#{userBean.password}" required="true" requiredMessage="veuillez entrer votre mot de passe" >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+              <f:ajax event="blur" render="nomMessagepass" />
+          </b:inputSecret>
+          <p:message id="nomMessagepass" for="pass" /> 
+        
+          
+          <h:outputText value="Mot de passe"/>   
+          <b:inputSecret  id="passconf" placeholder="confirmer le Mot de passe"  value="#{userBean.passwordConfirm}" required="true" requiredMessage="veuillez confirmer votre mot de passe"  >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+              <f:ajax event="blur" render="passconfirm" />
+          </b:inputSecret>
+          <p:message id="passconfirm" for="passconf" /> 
+         
+          <h:outputLabel  value="Privilège  :" />
+          <b:selectOneMenu value="#{userBean.privil}">    
+          <f:selectItem itemLabel="Utilisateur" itemValue="1" />
+          <f:selectItem itemLabel="Administrateur" itemValue="0" />
+          </b:selectOneMenu>
+          
+          
+          <b:commandButton value="Enregistrer"  look="primary" icon="save"  action="#{userBean.creerUser()}"  />
+            <b:commandButton value="Annuler"  look="danger" action="reset"  style=" margin-left: 100px"  />
+                 </h:panelGrid> 
+         </p:fieldset>
+                
+                <p:growl globalOnly="true" />
+                
+                <f:view>
+
+
+                    <h:form>
+                        <b:panel title="liste des utilisateurs" look="primary" collapsible="false"   >
+                            <p:dataTable id="montableau" value="#{userBean.listuUer}" var="item" paginator="true" rows="10" >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Utilisateur"/>
+                                </f:facet>
+                                <h:outputText value="#{item.login}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Mot de passe"/>
+                                </f:facet>
+                                <h:outputText value="#{item.passaword}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Date d'inscription"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dateInscription}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="NiveauAcces"/>
+                                </f:facet>
+                                <h:outputText value="#{item.niveauAcces}"/>
+                            </p:column>
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Agence"/>
+                                </f:facet>
+                                <h:outputText value="#{item.agId}"/>
+                            </p:column>
+                                
+                                <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="Modification"/>
+                        </f:facet>
+                        <h:link value="modifier" outcome="GestionUserModif">
+                            <f:param value="#{item.id}" name="paramuser"/>
+                        </h:link>
+                    </p:column>
+                                <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                        <h:outputText value="Suppression"/>
+                    </f:facet>
+                        <p:commandButton type="button" onclick="PF(#{item.id}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.id}">
+                            <p:commandButton value="oui" onclick="PF(#{item.id}).hide()" actionListener="#{userBean.supprimer(item.id)}" update="montableau" oncomplete="PF(#{item.id}).hide()"/>
+                            <p:commandButton value="non" onclick="PF(#{item.id}).hide()" type="button" />
+                                </p:confirmDialog>
+                    </p:column>
+                            
+                        </p:dataTable>
+<p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>
+                            </b:panel>
+                    </h:form>
+                </f:view>
+
+        
+      </h:form>
+         </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

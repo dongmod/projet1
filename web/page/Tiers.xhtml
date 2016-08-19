@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+        
+                <h:form id="formcoll">
+            <p:fieldset  collapsed="true" legend="ajout d'un tiiers" toggleable="true">
+                
+            
+            
+            <h:panelGrid columns="3">
+                
+                 <h:outputText value="Numero de compte"  />                
+                <b:inputText value="#{tiersBean.nomdecompte}" required="true" id="id6" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="comptMessage" />
+                    <f:validator binding="#{tierExiste}" />
+                </b:inputText>
+                <p:message for="id6" id="comptMessage" />
+                
+                <h:outputText value=" nom" />
+                <b:inputText value="#{tiersBean.nom}" required="true" id="id1" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="nomMessage" />
+                </b:inputText>                
+                <p:message for="id1" id="nomMessage" />
+                
+                <h:outputText value=" Ville"/>
+                <b:inputText value="#{tiersBean.ville}" required="true" id="id2" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="villeMessage" />
+                </b:inputText>                
+                <p:message for="id2"  id="villeMessage" />
+                
+                <h:outputText value=" Adresse" />
+                <b:inputText value="#{tiersBean.adresse}" required="true" id="id3" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="adressMessage" />
+                </b:inputText> 
+                <p:message for="id3" id="adressMessage" />
+                
+                <h:outputText value=" téléphone" />
+                <b:inputText value="#{tiersBean.tel}" required="true" id="id4" requiredMessage="veuillez remplir ce champ!" onkeyup="verif_nombre(this)" maxlength="14">
+                    <f:ajax event="blur" render="telMessage" />
+                    <f:validateLength minimum="9"></f:validateLength>
+                </b:inputText>
+                <p:message for="id4" id="telMessage" />
+                
+               
+                <h:outputText value=" Type"  />
+                <b:inputText value="#{tiersBean.type}" required="true" id="id5" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="typeMessage" />
+                </b:inputText>
+                <p:message for="id5" id="typeMessage" />
+            </h:panelGrid>
+            
+            <p:growl globalOnly="true"/>
+            
+            <b:row>
+                <b:column span="2" >
+                  <b:commandButton value="Enregistrer" look="primary" icon="save" action="#{tiersBean.enregistrertiers()}" />
+                </b:column>
+                <b:column span="2">
+                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                </b:column>
+            </b:row>
+                
+                
+                
+           </p:fieldset>
+        </h:form>
+        <f:view>
+
+
+            <h:form>
+                <b:panel title="liste des tiers" look="primary" >
+                    
+                
+                <p:dataTable value="#{tiersBean.retrievalbyvue}" var="item" id="montableau">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRnom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ville"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRville}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Adresse"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRadresse}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Téléphone"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRtel}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="N° compte principale"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRNcompteprincipale}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Type"/>
+                        </f:facet>
+                        <h:outputText value="#{item.TRtype}"/>
+                    </p:column>
+                    <p:column class="lagercolumn"  exportable="false">
+                    <f:facet name="header">
+                        <h:outputText value="action"/>
+                    </f:facet>
+                    <h:link value="modifier" outcome="modiftiers" >
+                        <f:param name="modif" value="#{item.trId}" />
+                    </h:link>
+                   </p:column>
+                    <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                        <h:outputText value="action"/>
+                    </f:facet>
+                        <p:commandButton type="button" onclick="PF(#{item.trId}).show()" icon="ui-icon-trash"  />
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.trId}">
+                            <p:commandButton value="oui" onclick="PF(#{item.trId}).hide();" actionListener="#{tiersBean.suppression(item.trId)}" update="montableau " oncomplete="PF('cd').hide()"/>
+                        <p:commandButton value="non" onclick="PF(#{item.trId}).hide();" type="button" />
+                        </p:confirmDialog>
+                   </p:column>
+                </p:dataTable>
+ <p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>                   
+                    </b:panel>
+            </h:form>
+        </f:view>
+
+                <script src="styljs.js">
+        </script>
+                
+                </ui:define>
+      </ui:composition>
+        
+    </h:body>
+</html>

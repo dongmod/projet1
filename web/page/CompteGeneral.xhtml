@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+        
+                <h:form id="formcoll">
+            <p:fieldset collapsed="true" legend="ajouter un Compte général" toggleable="true">
+                <h:panelGrid columns="3">
+                    <h:outputLabel  value="N°compte:" />
+                    <b:inputText value="#{compteGeneralBean.compte}" required="true" id="id1" requiredMessage="veuillez remplir ce champ!">
+                            <f:ajax event="blur" render="idmessage1" />
+                            <f:validator binding="#{comptGeneralExist}" />
+                            <f:validateLength minimum="3"/>
+                     </b:inputText> 
+                    <p:message id="idmessage1" for="id1" /> 
+                 <h:outputLabel  value="Code :" />
+                 <h:selectOneMenu value="#{compteGeneralBean.codej}">
+                     <f:selectItem itemLabel="choisir un code"/>
+                     <f:selectItems value="#{compteGeneralBean.listCodejournal}" /> 						
+                    </h:selectOneMenu>
+                <h:outputText/>
+                           
+               <h:outputLabel value="Famille :" />                        
+               <b:selectOneMenu id="agenceselectionne" value="#{compteGeneralBean.famille_nom}">
+                   <f:selectItem itemLabel="choisir une famille"/>
+                   <f:selectItems value="#{compteGeneralBean.listFamille}"  />                 	   							
+                  </b:selectOneMenu>
+                <h:outputText/>
+                
+               <h:outputLabel value="Tiers obligatoire :" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.tierObligatoire}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="Analytique:" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.analytique}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="lettrage Automatique" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.lettrageAutomatique}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="butget" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.butget}" >
+                   <f:selectItem itemLabel="Oui"  itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               
+               
+               
+               
+        </h:panelGrid>
+                <p:growl globalOnly="true"  />
+                         <b:row>
+                                <b:column span="2" >
+                                    <b:commandButton value="Enregistrer" action="#{compteGeneralBean.enregistrerCG()}" icon="save" look="primary"    />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                                </b:column>
+                            </b:row>
+               
+                
+           </p:fieldset>
+        </h:form>
+                <f:view>
+
+
+                    <h:form>
+                        <b:panel title="Liste des comptes Generaux" look="primary">
+                        <p:dataTable value="#{compteGeneralBean.listComptegeneral}" var="item"  id="montableau">
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Numero"/>
+                                </f:facet>
+                                <h:outputText value="#{item.numeroCPT}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tiers Obligatoire"/>
+                                </f:facet>
+                                <h:outputText value="#{item.tierObligatoire}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Analytique"/>
+                                </f:facet>
+                                <h:outputText value="#{item.analytique}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Lettrage Automatique"/>
+                                </f:facet>
+                                <h:outputText value="#{item.lettrageAutomatique}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Butget"/>
+                                </f:facet>
+                                <h:outputText value="#{item.butget}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="journal"/>
+                                </f:facet>
+                                <h:outputText value="#{item.cjId.CJlibelle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Famille"/>
+                                </f:facet>
+                                <h:outputText value="#{item.faId.FADesignation}"/>
+                            </p:column>
+                            <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                            <h:outputText value="Modification"/>
+                        </f:facet>
+                        <h:link value="modifier" outcome="ComptGeneralModif">
+                            <f:param value="#{item.cgId}" name="paramcompt"/>
+                        </h:link>
+                    </p:column>
+                            <p:column class="lagercolumn" exportable="false">
+                        <f:facet name="header">
+                        <h:outputText value="Suppression"/>
+                    </f:facet>
+                        <p:commandButton type="button" onclick="PF(#{item.cgId}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.cgId}">
+                            <p:commandButton value="oui" onclick="PF(#{item.cgId}).hide()" actionListener="#{compteGeneralBean.supprimerCg(item.cgId)}" update="montableau " oncomplete="PF(#{item.cgId}).hide()"/>
+                            <p:commandButton value="non" onclick="PF(#{item.cgId}).hide()" type="button" />
+                                </p:confirmDialog>
+                    </p:column>
+                        </p:dataTable>
+                            </b:panel>
+                    </h:form>
+                    
+                </f:view>
+
+                
+                
+                </ui:define>
+      </ui:composition>
+    </h:body>
+</html>

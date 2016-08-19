@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+       <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                
+                
+            <h:form >
+                    <p:fieldset collapsed="true" legend="ajouter un code journal" toggleable="true">
+                        <h:panelGrid columns="3">
+                                 <h:outputText value=" Libellé" />
+                                 <b:inputText value="#{codeJournalBean.libelle}" required="true" placeholder="libelle" id="id1" requiredMessage="veuillez remplir ce champ!">
+                                     <f:ajax event="blur" render="idmessage1" />
+                                     <f:validator binding="#{codejournalExiste}" />
+                                     <f:validateLength minimum="3"/>
+                                 </b:inputText>                
+                                 <p:message for="id1" id="idmessage1" />
+
+                                 <h:outputText value=" Type" />
+                                 <b:inputText value="#{codeJournalBean.type}" required="true" placeholder="type"  id="id3" requiredMessage="veuillez remplir ce champ!">
+                                     <f:ajax event="blur" render="idmessage3" />
+                                     <f:validateLength minimum="3"/>
+                                 </b:inputText> 
+                                 <p:message for="id3" id="idmessage3" />
+
+                                 <h:outputText value=" Compte trésorerie" />
+                                 <b:inputText value="#{codeJournalBean.compte}" required="true" placeholder="compte" id="id4" requiredMessage="veuillez remplir ce champ!">
+                                     <f:ajax event="blur" render="idmessage4" />
+                                     <f:validateLength minimum="3"/>
+                                 </b:inputText> 
+                                 <p:message for="id4" id="idmessage4" />
+                         </h:panelGrid>
+                        <p:growl globalOnly="true"  /> 
+                        <b:row>
+                                <b:column span="2" >
+                                    <b:commandButton value="Enregistrer" look="primary" icon="save"  action="#{codeJournalBean.enregistrer}" />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                                </b:column>
+                        </b:row>
+                    </p:fieldset>
+             </h:form>
+                <b:panel title="Journal de saisie" look="primary"  collapsible="false">
+                <f:view>
+
+
+                    <h:form>
+                        
+                        <p:dataTable value="#{codeJournalBean.listecode()}" var="item" id="montableau">
+                            
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="libelle"/>
+                                </f:facet>
+                                <h:outputText value="#{item.CJlibelle}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="type"/>
+                                </f:facet>
+                                <h:outputText value="#{item.CJtype}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="compte trésorerie"/>
+                                </f:facet>
+                                <h:outputText value="#{item.CJcompteTR}"/>
+                            </p:column>
+                            <p:column class='lagercolumn'>
+                                    <f:facet name="header">
+                                        <h:outputText value="action"/>
+                                    </f:facet>
+                                     <h:link value="modifier" outcome="CodejournalModifier">
+                                         <f:param name="art" value="#{item.cjId}" />
+                                    </h:link>
+                            </p:column>
+                            <p:column class='lagercolumn'>
+                                    <f:facet name="header">
+                                            <h:outputText value="action"/>
+                                        </f:facet>
+                                    <p:commandButton type="button" onclick="PF('cd').show()" icon='ui-icon-trash'/>
+                                    <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="cd">
+                                        <p:commandButton value="oui" onclick="PF('cd').hide();" actionListener="#{codeJournalBean.supprimerCJ(item.cjId)}" update="montableau " oncomplete="PF('cd').hide()"/>
+                                    <p:commandButton value="non" onclick="PF('cd').hide();" type="button" />
+                                    </p:confirmDialog>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+
+</b:panel>
+                  
+        </ui:define>
+      </ui:composition>
+            
+        
+    </h:body>
+</html>
+

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+             
+        <ui:define name="contenu">
+            
+      
+        
+                <h:form id="formcoll">
+                    
+                     <f:metadata>
+                         <f:viewParam name="paramcompt" value="#{compteGeneralBean.param}"/>
+                    </f:metadata>
+                    <f:event type="preRenderView" listener="#{compteGeneralBean.param_value()}" >
+                </f:event>
+        
+                    
+            <p:fieldset legend="Compte général" toggleable="true">
+                <h:panelGrid columns="3">
+                    <h:outputLabel  value="N°compte:" />
+                    <b:inputText value="#{compteGeneralBean.compte}" required="true" id="id1" requiredMessage="veuillez remplir ce champ!">
+                            <f:ajax event="blur" render="idmessage1" />
+                            <!--f:validator binding="#{comptGeneralExist}" /-->
+                     </b:inputText> 
+                    <p:message id="idmessage1" for="id1" /> 
+                 <h:outputLabel  value="Journal :" />
+                 <h:selectOneMenu value="#{compteGeneralBean.codej}">
+                     <f:selectItems value="#{compteGeneralBean.listCodejournal}" /> 						
+                    </h:selectOneMenu>
+                <h:outputText/>
+                           
+               <h:outputLabel value="Famille :" />                        
+               <b:selectOneMenu id="agenceselectionne" value="#{compteGeneralBean.famille_nom}">
+                   <f:selectItems value="#{compteGeneralBean.listFamille}"  />                 	   							
+                  </b:selectOneMenu>
+                <h:outputText/>
+                
+               <h:outputLabel value="Tiers obligatoire :" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.tierObligatoire}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="Analytique:" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.analytique}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="lettrage Automatique" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.lettrageAutomatique}" >
+                   <f:selectItem itemLabel="Oui" itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               <h:outputText/>
+               
+               <h:outputLabel value="butget" />
+               <h:selectOneRadio layout="pageDirection" class="selectioneradio" value="#{compteGeneralBean.butget}" >
+                   <f:selectItem itemLabel="Oui"  itemValue="true"/>
+                    <f:selectItem itemLabel="Non" itemValue="false" />
+                    <f:selectItems />
+                </h:selectOneRadio>
+               
+               
+               
+               
+        </h:panelGrid>
+                <p:growl globalOnly="true"  />
+                         <b:row>
+                                <b:column span="2" >
+                                    <b:commandButton value="Modifier" action="#{compteGeneralBean.modifier()}" look="primary" icon="save"   />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger"  action="CompteGeneral.xhtml?faces-redirect=true" />
+                                </b:column>
+                            </b:row>
+               
+                
+           </p:fieldset>
+        </h:form>
+         </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+     
+    <h:head>
+        <title>Bienvenu sur Gescom </title>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <center>
+        <h:form >
+            
+                
+                <b:panel title="connectez vous!" look="primary" collapsible="false" >
+                    <h:graphicImage  value="images.jpg" style=" max-height: 50%; max-width: 50% " />
+                <!--b:image value="resources/images/images.png" style= "width:400px; margin-bottom: 100px;  "  /-->
+              
+            <h:panelGrid columns="2">
+                     
+          <h:outputText value="Utilisateur :         "  />  
+          <b:inputText placeholder="Utilisateur" id="username" value="#{userBean.username}" >
+            <f:facet name="prepend">
+              <b:icon name="user" />
+            </f:facet>
+          </b:inputText  >   
+          <h:outputText value="Mot de passe"/>      
+          <b:inputSecret placeholder="Mot de passe" id="password" value="#{userBean.password}" >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+          </b:inputSecret>
+        
+        </h:panelGrid> 
+                <!--p:growl globalOnly="true"  /-->
+                <p:growl globalOnly="true" life="2000" showDetail="true" showSummary="true" />
+        <b:row>
+        <b:column span="4" offset="4"  >
+            <b:commandButton value="Connexion"  look="primary" icon="log-in"  action="#{userBean.login()}"    />
+        </b:column>
+        
+      </b:row>
+    </b:panel>
+              
+      </h:form>
+             </center>
+    </h:body>
+</html>
+

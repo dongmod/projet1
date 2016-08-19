@@ -1,0 +1,105 @@
+
+fieldset {
+padding: 15px;
+border: 2px #0568CD solid;
+}
+legend {
+font-weight: bold;
+color: #0568CD;
+}
+
+
+
+facet{
+margin-left:10px;
+border: 1px #999 solid;
+}
+
+.legend{
+color: blue;
+height: 10px;
+
+}
+    .lagercolumn{
+        width: 100px;
+}
+
+#connexionform{
+    color: white;
+    font-weight: bold;
+    margin-top: 10%;
+    background-image: url(resources/images/images.png);
+    background-color: red;
+    color: red;
+width:50%;  display:inline-block; 
+}
+/*
+#contenu1{
+    color: white;
+   font-weight: bold;
+    margin-top: 10%;
+    background-image: url(/images.png);
+    background-color: red;
+    color: red;
+width:50%;  display:inline-block; 
+}*/
+
+
+#formcoll input, #formcoll select,#formcoll label{		
+		width:270px;
+                height: 25px;
+		padding:3px 3px;
+                margin-bottom: 5px;
+                font-weight: bold;
+    font-size: 13px;
+    margin-left: 20px;
+		}
+                
+#documents input, #documents select{		
+		width:200px;
+                height: 20px;
+		padding:1px 1px;
+                margin-bottom: 5px;
+                font-weight: bold;
+                font-size: 13px;
+                margin-left:0px;
+}        
+                .ui-fieldset{
+                    color: black;
+                    font-weight: bold;
+                    border-color: green;
+                }
+                .ui-fieldset .ui-fieldset-legend{
+                    color: blue;
+                    height:30px;
+                    width: 220px;
+                    font-size: 15px;
+                    border-color: blue;
+                }
+                /*ceci pour le facet du table data
+                .ui-datatable .ui-datatable-header {
+    width: 1300px;
+    margin-left: 30px;
+}*/
+/*le facet qui contient le formulaire
+.ui-widget {
+    font-size: 13px;
+    width: 1300px;
+    margin-left: 30px;
+}
+*/
+html {
+    font-size: 13px;
+    width: 1210px;display: bloc;
+    margin-left: 30px;
+}
+/*style de la barre de navigation */
+.navbar-default {
+    margin-top: 10px;
+}
+/*style definissant la hauter des champs du data table*/
+.ui-widget-content {
+  
+    font-size: 14px;
+    font-family: bold;
+}

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"> 
+      <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+        <h:body>
+            <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <p:growl globalOnly="true"/>
+                <h:form > 
+                    <p:fieldset  collapsed="true" legend="ajouter une caisse" toggleable="true">
+                        <h:panelGrid  columns="3" >
+                            
+                            <h:outputLabel  value="Libelle :" />
+                            <b:inputText  id="libelle" value="#{caisseBean.libelle}" required="true" placeholder="libelle" requiredMessage="veuillez entrer le nom d'une caisse" maxlength="50">
+                                <f:ajax event="blur" render="nomMessage" />
+                                <f:validator binding="#{caisseExiste}" />
+                                <f:validateLength minimum="3"/>
+                            </b:inputText>
+                            <p:message id="nomMessage" for="libelle" />                            
+                            
+                            <h:outputLabel  value="Code  :" />
+                            <b:selectOneMenu value="#{caisseBean.mon_code}">
+                                <f:selectItems value="#{caisseBean.listCodejournal}" /> 						
+                            </b:selectOneMenu>
+                            <h:outputLabel />
+                            
+                        </h:panelGrid>
+                        <b:row>
+                                <b:column span="2" >
+                                    <b:commandButton value="Enregistrer" look="primary" icon="save"  action="#{caisseBean.enregistrer()}" />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger" type="reset"  />
+                                </b:column>
+                        </b:row>
+                    </p:fieldset>
+      </h:form>
+               
+                    <f:view>
+                        <h:form>
+                            <b:panel title="liste des caisses " collapsible="false" look="primary">
+                                <p:outputPanel id="out">
+                                    <p:dataTable value="#{caisseBean.listeCaiss}" var="item" id="montableau" paginator="true" rows="10" class="datagence" >
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Libelle"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.CAlibelle}"/>
+                                  </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Agence"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.agId}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="journal"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.cjId}"/>
+                                </p:column>
+                                        <p:column class="lagercolumn" exportable="false">
+                                        <f:facet name="header">
+                                            <h:outputText value="Modifier"/>
+                                        </f:facet>
+                                        <h:link value="modifier" outcome="caissemodifier">
+                                            <f:param value="#{item.caId}" name="id_paramcaisse"/>
+                                        </h:link>
+                                        
+                                    </p:column>
+                                        <p:column class="lagercolumn" exportable="false">
+                        <p:commandButton type="button" onclick="PF(#{item.caId}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.caId}">
+                                    <p:commandButton value="oui" onclick="PF(#{item.caId}).hide()" actionListener="#{caisseBean.suppressioncaisse(item.caId)}" update="montableau" oncomplete="PF(#{item.caId}).hide()"/>
+                                   <p:commandButton value="non" onclick="PF(#{item.caId}).hide()" type="button" />
+                                </p:confirmDialog>
+                            </p:column>
+                            </p:dataTable>
+  <p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>                                  
+                        </p:outputPanel>
+                        </b:panel>
+            </h:form>  
+            </f:view>
+        </ui:define>
+      </ui:composition>
+        </h:body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu"> 
+        
+            <p:growl globalOnly="true"/>
+        <f:metadata>
+            <f:viewParam name="mon_paramettre" value="#{collaborateurBean.param_coll}"/>
+        </f:metadata>
+            <f:event type="preRenderView" listener="#{collaborateurBean.param_modif_collaborateur()}" > </f:event>
+        
+            <h:form >
+                <p:fieldset legend="modifier" >
+            <h:panelGrid columns="3">                
+                <h:outputText value=" Nom"/>
+                <b:inputText value="#{collaborateurBean.nom_coll}" required="true" placeholder="nom" id="id2" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage2" />
+                </b:inputText>
+                <p:message for="id2" id="idmessage2" />
+                <h:outputText value=" Type" />
+                <b:inputText value="#{collaborateurBean.type_coll}" required="true" placeholder="type" id="id3" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage3" />
+                </b:inputText> 
+                <p:message for="id3" id="idmessage3" />
+            <p:growl globalOnly="true"/>
+        <b:commandButton value="Modifier" look="primary" action="#{collaborateurBean.modifierCollaborateur()}"/>
+        
+        </h:panelGrid>
+                    
+                    
+                </p:fieldset>
+        </h:form> 
+        </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

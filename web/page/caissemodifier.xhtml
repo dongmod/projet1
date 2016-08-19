@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Gescom</title>
+               <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+         <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu" id="body_agence" >
+        <f:metadata>
+            <f:viewParam name="id_paramcaisse" value="#{caisseBean.param_caisse}"/>
+        </f:metadata>
+            <f:event type="preRenderView" listener="#{caisseBean.param_modif_caisse()}" > </f:event>
+        
+        <h:form > 
+                    <p:fieldset legend="ajouter une caisse" >
+                        <h:panelGrid  columns="3" style="margin-bottom:10px">
+                            <h:outputLabel  value="Libelle :" />
+                            <b:inputText  id="libelle" value="#{caisseBean.libelle}" required="true" requiredMessage="veuillez entrer le nom du dépot" maxlength="50">
+                                <f:ajax event="blur" render="nomMessage" />
+                                <f:validator binding="#{caisseExiste}" />
+                            </b:inputText>
+                            <p:message id="nomMessage" for="libelle" /> 
+                            
+                            
+                            <h:outputLabel  value="Code  :" />
+                            <b:selectOneMenu value="#{caisseBean.mon_code}">
+                                <f:selectItems value="#{caisseBean.listCodejournal}" /> 						
+                            </b:selectOneMenu>
+                            <h:outputLabel />
+                            
+                           
+                        </h:panelGrid>
+                        <b:row>
+                                <b:column span="2" >
+                                    <b:commandButton value="Modifier" look="primary" icon="save"  action="#{caisseBean.modifiercaisse()}" />
+                                </b:column>
+                        </b:row>
+                    </p:fieldset>
+            </h:form>
+            </ui:define>
+      </ui:composition>
+      
+    </h:body>
+</html>
+

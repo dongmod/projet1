@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+        <h:outputStylesheet library="css" name="styl.css" />
+    </h:head>
+    <h:body>
+        
+        
+        <h:form > 
+           
+    <p:menubar>
+        <p:submenu label="FICHIER" icon="ui-icon-gear">
+            <p:menuitem value="Autorisation d'accès" url="#" />
+            <p:separator/>
+            <p:menuitem value="Quit" url="index.xhtml" />
+        </p:submenu>
+        <p:submenu label="STRUCTURE" icon="ui-icon-pencil">
+            <p:submenu label="Agences et Dépots" >
+             <p:menuitem value="Agences " url="agence.xhtml" icon="ui-icon-pencil" />  
+             <p:menuitem value=" Dépots" url="Depot.xhtml" icon="ui-icon-pencil" />
+            </p:submenu>
+            
+            <p:menuitem value="Collaborateurs" url="collaborateur.xhtml" icon="ui-icon-pencil" />
+            <p:menuitem value="Code Journal" url="Codejournal.xhtml" icon="ui-icon-pencil" />
+            <p:menuitem value="Caisse" url="caisse.xhtml" icon="ui-icon-pencil" />
+            <p:menuitem value="Familles" url="Famille.xhtml" icon="ui-icon-pencil" />
+            <p:menuitem value="Articles" url="article.xhtml" icon="ui-icon-pencil" />
+            <p:menuitem value="Tiers" url="Tiers.xhtml" icon="ui-icon-pencil" />
+            
+        </p:submenu>
+        
+            <p:submenu label="TRAITEMENT" >
+              <p:submenu label="Document des ventes" >
+             <p:menuitem value="bon de commande" url="#" icon="ui-icon-pencil" />
+             <p:menuitem value="Factures" url="#" icon="ui-icon-pencil" />
+                </p:submenu>
+            <p:submenu label="Document des Achats" >
+             <p:menuitem value="bon de commande" url="#" icon="ui-icon-pencil" />
+             <p:menuitem value="Facture D'achat" url="#" icon="ui-icon-pencil" />
+                </p:submenu>
+           <p:submenu label="Document des Stocks" >
+             <p:menuitem value="Mouvement d'entrée" url="#" icon="ui-icon-pencil" />
+             <p:menuitem value="Mouvement de sortie" url="#" icon="ui-icon-pencil" />
+             <p:menuitem value="Mouvement de transfert " url="#" icon="ui-icon-pencil" />
+             <p:menuitem value="Inventaire" url="#" icon="ui-icon-pencil" />
+            </p:submenu>
+            
+        </p:submenu>
+    </p:menubar>
+</h:form>
+        
+         
+        <div id="centre">
+            <ui:insert name="contenu" >
+                
+            </ui:insert>
+        </div>
+            
+        
+
+    </h:body>
+        
+        </html>

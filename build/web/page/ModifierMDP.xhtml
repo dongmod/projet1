@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+         <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <h:form id="formcoll">
+        <p:fieldset collapsed="true" legend="modifier le mot de passe" toggleable="true" >
+       
+           
+            <h:panelGrid columns="3">
+                <h:outputText value="ancien mot de passe :         "  />  
+                <b:inputSecret  placeholder="ancien mot de passe" id="username" value="#{userBean.verifancienpass}" required="true" requiredMessage="veuillez entrer le nom de l'utilisateur" >
+                        <f:ajax event="blur" render="nomMessage" />
+                        <f:facet name="prepend">
+                        <b:icon name="user" />
+                         </f:facet>
+                </b:inputSecret>
+          <p:message id="nomMessage" for="username" /> 
+          
+          <h:outputText value=" nouveau mot de passe"/>      
+          <b:inputSecret id="pass" placeholder="Mot de passe"  value="#{userBean.modifpw}" required="true" requiredMessage="veuillez entrer votre mot de passe" >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+              <f:ajax event="blur" render="nomMessagepass" />
+          </b:inputSecret>
+          <p:message id="nomMessagepass" for="pass" /> 
+        
+          
+          <h:outputText value="confirmation"/>   
+          <b:inputSecret  id="passconf" placeholder="confirmation"  value="#{userBean.passwordConfirm}" required="true" requiredMessage="veuillez confirmer votre mot de passe"  >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+              <f:ajax event="blur" render="passconfirm" />
+          </b:inputSecret>
+          <p:message id="passconfirm" for="passconf" /> 
+          <h:outputText value=""  />
+          
+          <b:commandButton value="Enregistrer"  look="primary" icon="save"  action="#{userBean.modifiermdp()}"  />
+            <b:commandButton value="Annuler"  look="danger" action="reset"  style=" margin-left: 100px"  />
+                 </h:panelGrid> 
+         </p:fieldset>
+                
+                <p:growl globalOnly="true" />
+      </h:form>
+         </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

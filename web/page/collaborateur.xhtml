@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+            <link href="styl.css" type="text/css" rel="stylesheet"/>
+            
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu"> 
+                
+                
+                <h:form id="formcoll">
+                    <p:fieldset    collapsed="true" legend="ajouter un collaborateur" toggleable="true">
+            <h:panelGrid columns="3">
+                <h:outputLabel value=" Code  :" />
+                <b:inputText value="#{collaborateurBean.code_coll}" required="true" placeholder="Code" id="id1" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage1" />
+                    <f:validator binding="#{collaborateurExiste}" />
+                    <f:validateLength minimum="3"/>
+                </b:inputText>                
+                <p:message for="id1" id="idmessage1" />
+                <h:outputLabel value=" Nom  :"/>
+                <b:inputText value="#{collaborateurBean.nom_coll}" required="true" placeholder="nom"  id="id2" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage2" />
+                    <f:validateLength minimum="3"/>
+                </b:inputText>
+                <p:message for="id2" id="idmessage2" />
+                <h:outputLabel value=" Type  :" />
+                <b:inputText value="#{collaborateurBean.type_coll}" required="true" id="id3"  placeholder="type" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage3" />
+                    <f:validateLength minimum="3"/>
+                </b:inputText> 
+                <p:message for="id3" id="idmessage3"/>
+                
+                
+                
+                
+            </h:panelGrid>
+                        <p:growl globalOnly="true"/>
+            <b:row>
+                                <b:column span="2" >
+                                  <b:commandButton value="Enregistrer" look="primary" icon="save" action="#{collaborateurBean.enregistrer()}" />
+                                </b:column>
+                                <b:column span="2">
+                                  <b:commandButton value="Annuler" look="danger"  type="reset" />
+                                </b:column>
+                
+                
+                              </b:row>
+            
+            
+            </p:fieldset>
+        </h:form>
+            <f:view>
+                <h:form style=" padding: 5px;margin-top: 1px">
+                    <b:panel title="collaborateurs " look="primary" collapsible="false">
+                    <p:outputPanel id="out">
+                        <p:dataTable value="#{collaborateurBean.mesCollaborateurs()}" var="item"  id="montableau" paginator="true" rows="10" >
+                           
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="code "/>
+                            </f:facet>
+                           
+                                <h:outputText value="#{item.COcode}"/>
+                           
+                        </p:column>
+                                              
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="nom "/>
+                            </f:facet>
+                           
+                            <h:outputText value="#{item.COnom}"/>
+                           
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="type"/>
+                            </f:facet>
+                           
+                            <h:outputText value="#{item.COtype}"/>
+                     
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="agence "/>
+                            </f:facet>
+                        
+                            <h:outputText value="#{item.agId.AGnom}"/>
+                       
+                        </p:column>
+                     <p:column class="lagercolumn"  exportable="false">
+                         <f:facet name="header">
+                        <h:outputText value="action"/>
+                    </f:facet>
+                    <h:link value="modifier" outcome="collaborateurModifier">
+                         <f:param name="mon_paramettre" value="#{item.coId}" />
+                    </h:link>
+                    </p:column>
+                    
+            
+                    <p:column class="lagercolumn" exportable="false" rendered="#{userBean.adm}">
+                        <p:commandButton type="button" onclick="PF(#{item.coId}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.coId}">
+                        <p:commandButton value="oui" onclick="PF(#{item.coId}).hide()" actionListener="#{collaborateurBean.suppression(item.coId)}" update="montableau " oncomplete="PF(#{item.coId}).hide()"/>
+                        <p:commandButton value="non" onclick="PF(#{item.coId}).hide()" type="button" />
+                        </p:confirmDialog>
+                    </p:column>
+
+ 
+                            
+                         </p:dataTable>
+ <p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>                       
+                    </p:outputPanel>
+                        </b:panel>
+            </h:form>  
+                
+                
+            </f:view>
+                </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

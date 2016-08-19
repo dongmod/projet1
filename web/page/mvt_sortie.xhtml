@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+       <title>Mouvement de sortie</title>
+    </h:head>
+    <h:body>
+      <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <f:view>
+                    <h:form id="documents">
+                          <p:growl globalOnly="true" id="msg"  />
+                          <b:panelGrid columns="4">
+                            <h:outputLabel  value="Fournisseur    :"/>
+                                <b:selectOneMenu disabled="#{mvtStock.griserChamp}" id="jnal" placeholder="code journal" value="#{mvtStock.codej}" >
+                               <f:selectItem itemLabel="#{mvtStock.codej}"/>
+                                <f:selectItems value="#{mvtStock.listCodejournal}" /> 
+                               </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/> 
+                                <h:outputLabel value=" N°Piece:"  />
+                                <h:inputText  disabled="#{mvtStock.griserChamp}"  maxlength="10" id="ref"  value="#{mvtStock.reference}"  required="true" requiredMessage="ce champ ne peut pas ètre null" >
+                                    <f:validator binding="#{docEnteteExiste}" />
+                                     <f:validateLength minimum="3"/>
+                                </h:inputText>
+                                <p:message id="refMessage" for="ref" /> 
+                            <h:outputLabel  value=""/>
+                                <h:commandButton value="Valider" action="#{mvtStock.enregistrerDocEntete()}">
+                                    <p:ajax   process="@form" rendered="@form"  update="jnal,refMessage,ref"/>
+                                </h:commandButton>
+                        </b:panelGrid>
+                        </h:form>
+                        <h:form>
+                 
+                            <h:form>
+                                <p:dataTable value="#{mvtStock.listeDocligner}" var="item" id="montableau">
+                        <f:facet name="header">
+                                 <p:inputText id="pro" required="true" requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.tmp}" disabled="#{mvtStock.disable}">
+                                     <p:ajax event="blur" listener="#{mvtStock.grise}" update="pro,desin,pu,msg"/>
+                                 </p:inputText>
+                                  <h:outputLabel></h:outputLabel>
+                                 <p:inputText disabled="#{mvtStock.disable}" id="desin" required="true" requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.designation}"/>    
+                                 <h:outputLabel></h:outputLabel>         
+                                 <p:inputText disabled="#{mvtStock.disable}" id="pu"   required="true"  requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.prix_achat}"/>
+                                 <h:outputLabel></h:outputLabel> 
+                                 <h:inputText value="#{mvtStock.qte}" id="Qte" onkeyup="verif_nombre(this)"  required="true"  requiredMessage="veuillez remplir ce champ!" >
+                                     <p:ajax event="blur"  update="msgQte" />
+                                 <p:message id="msgQte" for="Qte" /> 
+                                 </h:inputText>
+                                 <h:commandButton value="Valider" action="#{mvtStock.ajouterArticle()}">
+                                 <p:ajax   process="@form" update="montableau,pro,desin,pu,msg,Qte"  />
+                                 </h:commandButton>
+                                 <p:growl globalOnly="true" id="msg"  />
+                        </f:facet>
+                                </p:dataTable>
+                            </h:form>
+
+                    </h:form>
+                        <!--p:panel header="Exportation">  
+                        <p:commandButton ajax="false" icon="ui-icon-print" >
+                        <p:dataExporter type="pdf" target="montableau" fileName="export"/>
+                        </p:commandButton>
+                        </p:panel-->  
+                </f:view>
+        <script src="styljs.js">
+        </script>
+                </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

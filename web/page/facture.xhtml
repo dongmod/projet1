@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <h:head>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+       <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <h:form id="documents"> 
+             <h:panelGrid  columns="4" style="margin-bottom:10px">
+                           <h:outputLabel  value="Agence :" />
+                            <b:selectOneMenu>
+                                <f:selectItems   />
+                            </b:selectOneMenu>
+                            <h:outputLabel  value="Depôt :" />
+                            <b:selectOneMenu>
+                                 <f:selectItem itemValue="A" itemLabel="A" />
+                            </b:selectOneMenu>
+                            <h:outputLabel  value="categorie comptable :" />
+                            <b:selectOneMenu>
+                                 <f:selectItem itemValue="A" itemLabel="A" />
+                            </b:selectOneMenu>
+                            <h:outputLabel  value="quantite :" />
+                            <b:inputText value="#{articleBean.article.ARprixVente}"/>
+                            <h:outputLabel  value="prix d'achat :" />
+                            <b:inputText value="#{articleBean.article.ARprixVente}"/>
+                            <h:outputLabel  value="prix de vente :" />
+                            
+                            <b:inputText value="#{articleBean.article.ARprixVente}"/>
+                            <h:outputLabel  value="stovk d'alerte :" />
+                            <b:inputText value="#{articleBean.article.ARstockAlert}"/>
+                            <b:commandButton value="valider"/>
+                            <b:commandButton value="annuler" type="reset"/>
+                        </h:panelGrid>
+      </h:form>
+            </ui:define>
+      </ui:composition> 
+    </h:body>
+</html>

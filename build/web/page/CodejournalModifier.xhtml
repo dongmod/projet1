@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+       <f:metadata>
+                    <f:viewParam name="art" value="#{codeJournalBean.param_cj}"/> 
+                 </f:metadata>      
+                <f:event type="preRenderView" listener="#{codeJournalBean.param_modif_codej()}"></f:event>
+              
+                <h:form id="formcoll">
+                    <p:fieldset legend="modifier" toggleable="true">
+                <h:panelGrid columns="3">
+                <h:outputText value=" Type" />
+                <b:inputText value="#{codeJournalBean.type}" required="true" id="id3" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage3" />
+                </b:inputText> 
+                <p:message for="id3" id="idmessage3" />
+                
+                <h:outputText value=" Compte trésorerie" />
+                <b:inputText value="#{codeJournalBean.compte}" required="true" id="id4" requiredMessage="veuillez remplir ce champ!">
+                    <f:ajax event="blur" render="idmessage4" />
+                </b:inputText> 
+                <p:message for="id4" id="idmessage4" />
+                
+                <b:commandButton value="Modifier" look="primary" icon="save" action="#{codeJournalBean.modifiers()}" />
+        <b:commandButton value="annuler" look="danger" action="Codejournal.xhtml?faces-redirect=true"/>
+        
+            </h:panelGrid><p:growl globalOnly="true"/>
+            </p:fieldset>
+                    
+        </h:form>
+                 </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

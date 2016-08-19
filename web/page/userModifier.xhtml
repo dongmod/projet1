@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <!--h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <f:metadata>
+                    <f:viewParam name="user" value="#{utilisateurBean.parammodifuser}"/> 
+                </f:metadata>      
+                <f:event type="preRenderView" listener="#{utilisateurBean.param_modif_user()}"></f:event>
+         <h:form>
+        <p:fieldset collapsed="true" legend="ajouter un utilisateur" toggleable="true" >
+       
+           
+            <h:panelGrid columns="2">
+                <h:outputLabel value=" Agence    :"/>
+                <b:selectOneMenu  value="#{utilisateurBean.nomAgence}" >
+                      <f:selectItem  itemLabel="#{utilisateurBean.nomAgence}"/>
+                      <f:selectItems value="#{utilisateurBean.listAgence}" /> 
+                       </b:selectOneMenu>
+                     
+          <h:outputText value="Utilisateur :         "  />  
+          <b:inputText placeholder="nom d'utilisateur" id="username" value="#{utilisateurBean.username}"  >
+            <f:facet name="prepend">
+              <b:icon name="user" />
+            </f:facet>
+          </b:inputText  >   
+          <h:outputText value="Mot de passe"/>      
+          <b:inputSecret placeholder="Mot de passe"  value="#{utilisateurBean.password}" >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+          </b:inputSecret>
+          <h:outputText value="Mot de passe"/>   
+          <b:inputSecret placeholder="confirmer le Mot de passe"  value="#{utilisateurBean.passwordConfirm}"  >
+            <f:facet name="prepend">
+              <b:iconAwesome name="key" />
+            </f:facet>
+          </b:inputSecret>
+          <b:commandButton value="Enregistrer"  look="primary" icon="save"  action="#{utilisateurBean.creerUser()}"  />
+            <b:commandButton value="Annuler"  look="danger" action="reset"  style=" margin-left: 100px"  />
+                 </h:panelGrid> 
+         </p:fieldset>
+                
+                <p:growl globalOnly="true" />
+                
+                
+      </h:form>
+         </ui:define>
+      </ui:composition>
+    </h:body-->
+</html>
+

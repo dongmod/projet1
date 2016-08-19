@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+                    <f:metadata>
+                        <f:viewParam name="modif" value="#{tiersBean.modiftiers}"/>
+                </f:metadata>
+                    <f:event type="preRenderView" listener="#{tiersBean.chercherid()}" />
+                    <h:form id="formcoll">
+                        <p:fieldset legend="Modifier un tiers" toggleable="true">
+            <h:panelGrid columns="3">
+                <h:outputText value=" Numero de compte"  />
+                <b:inputText value="#{tiersBean.nomdecompte}" required="true" id="id6" requiredMessage="remplir les champ"/>
+                <p:message for="id6" />
+                <h:outputText value=" nom" />
+                <b:inputText value="#{tiersBean.nom}" required="true" id="id1" requiredMessage="remplir les champ"/>
+                <p:message for="id1" />
+                <h:outputText value=" Ville"/>
+                <b:inputText value="#{tiersBean.ville}" required="true" id="id2" requiredMessage="remplir les champ"/>
+                <p:message for="id2" />
+                <h:outputText value=" Adresse" />
+                <b:inputText value="#{tiersBean.adresse}" required="true" id="id3" requiredMessage="remplir les champ"/> 
+                <p:message for="id3" />
+                <h:outputText value=" téléphone" />
+                <b:inputText value="#{tiersBean.tel}" required="true" id="id4" requiredMessage="remplir les champ"/>
+                <p:message for="id4" />
+                
+                <h:outputText value=" Type"  />
+                <b:inputText value="#{tiersBean.type}" required="true" id="id5" requiredMessage="remplir les champ"/>
+                <p:message for="id5" />
+                
+            <b:commandButton value="Modifier" look="primary" icon="save"  action="#{tiersBean.editTier()}" />
+        
+          <b:commandButton value="Annuler"  look="danger" action="Tiers.xhtml" />
+     
+            </h:panelGrid>
+           </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+

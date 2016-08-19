@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+      <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+                <f:view>
+                <f:metadata>
+                    <f:viewParam name="param_liste_doc" value="#{mvtStock.param_docentete}"/>
+                </f:metadata> 
+                <!--f:event type="preRenderView" listener="{familleBean.param_modif_famille()}"></f:event-->
+       
+                    <h:form id="documents">
+                          <p:growl globalOnly="true"  />
+                          <b:panelGrid columns="4">
+                            <h:outputLabel value=" dépot    :"/>
+                                <b:selectOneMenu disabled="#{mvtStock.griserChamp}"   value="#{mvtStock.nomDepot}">
+                                    <f:selectItem  itemLabel="#{mvtStock.nomDepot}"/>
+                                     <f:selectItems value="#{mvtStock.listDepot}" /> 
+                                </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel for="mask" value="Date" />
+                            <p:calendar id="mask" value="#{mvtStock.datedoc}" pattern="dd-MM-yyyy" mask="true" required="true"/>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value="Journal    :"/>
+                                <b:selectOneMenu disabled="#{mvtStock.griserChamp}" id="jnal" placeholder="code journal" value="#{mvtStock.codej}" >
+                               <f:selectItem itemLabel="#{mvtStock.codej}"/>
+                                <f:selectItems value="#{mvtStock.listCodejournal}" /> 
+                               </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>  
+                                <h:outputLabel  value="Tiers:" />
+                                <b:selectOneMenu  disabled="#{mvtStock.griserChamp}" id="tier" value="#{mvtStock.nomtier}">
+                                    <f:selectItem itemLabel="#{mvtStock.nomtier}"/>
+                                    <f:selectItems value="#{mvtStock.listetiers}" /> 
+                               </b:selectOneMenu>
+                            <h:outputLabel  value=""/>
+                            <h:outputLabel  value=""/>
+                                <h:outputLabel  value="Collaborateur" />
+                                <b:selectOneMenu  id="collab" value="#{mvtStock.nomcol}"  disabled="#{mvtStock.griserChamp}">
+                                    <f:selectItem itemLabel="#{mvtStock.nomcol}"/>
+                                    <f:selectItems value="#{mvtStock.getlisteCollaborateur()}"/> 
+                               </b:selectOneMenu>
+                                <h:outputLabel/>
+                                 <h:outputLabel/>
+                                <h:outputLabel value=" N°Piece:"  />
+                                <h:inputText  disabled="#{mvtStock.griserChamp}"  maxlength="10" id="ref"  value="#{mvtStock.reference}"  required="true" requiredMessage="ce champ ne peut pas ètre null" >
+                                    <f:validator binding="#{docEnteteExiste}" />
+                                     <f:validateLength minimum="3"/>
+                                </h:inputText>
+                                <p:message id="refMessage" for="ref" /> 
+                            <h:outputLabel  value=""/>
+                                <h:commandButton value="Valider" action="#{mvtStock.enregistrerDocEntete()}">
+                                    <p:ajax   process="@form" rendered="@form"  update="jnal,refMessage,ref,collab,tier"/>
+                                </h:commandButton>
+                        </b:panelGrid>
+                        </h:form>
+                        <h:form>
+                 
+                            <h:form>
+                                <p:dataTable value="#{mvtStock.listeDocligner}" var="item" id="montableau" scrollable="true" scrollHeight="250">
+                        <f:facet name="header">
+                                 <p:inputText id="pro" required="true" requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.tmp}" disabled="#{mvtStock.disable}">
+                                     <p:ajax event="blur" listener="#{mvtStock.grise}" update="pro,desin,pu,msg"/>
+                                 </p:inputText>
+                                  <h:outputLabel></h:outputLabel>
+                                 <p:inputText disabled="#{mvtStock.disable}" id="desin" required="true" requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.designation}"/>    
+                                 <h:outputLabel></h:outputLabel>         
+                                 <p:inputText disabled="#{mvtStock.disable}" id="pu"   required="true"  requiredMessage="veuillez remplir ce champ!" value="#{mvtStock.prix_achat}"/>
+                                 <h:outputLabel></h:outputLabel> 
+                                 <h:inputText value="#{mvtStock.qte}" id="Qte" onkeyup="verif_nombre(this)"  required="true"  requiredMessage="veuillez remplir ce champ!" >
+                                     <p:ajax event="blur"  update="msgQte" />
+                                 <p:message id="msgQte" for="Qte" /> 
+                                 </h:inputText>
+                                 <h:commandButton value="Valider" action="#{mvtStock.ajouterArticle()}">
+                                 <p:ajax   process="@form" update="montableau,pro,desin,pu,Qte"  />
+                                 </h:commandButton>
+                                 <p:growl globalOnly="true" id="msg"  />
+                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="montableau" trigger="toggler" />
+                        </f:facet>
+                                  
+                                    <p:column headerText="ARdesignation">
+                                        <h:outputText value="#{item.ARdesignation}"/>
+                                    </p:column>
+                                    <p:column  headerText="date modif">
+                                        <h:outputText value="#{item.DLDateModification}"/>
+                                    </p:column>
+                                    <p:column headerText="marge total">
+                                        <h:outputText value="#{item.DLMargeTotale}"/>
+                                    </p:column>
+                                    <p:column headerText="marge unit">
+                                        <h:outputText value="#{item.DLMargeUnitaire}"/>
+                                    </p:column>
+                                    <p:column headerText="prix de vente">
+                                        <h:outputText value="#{item.DLPrixVenteTTC}"/>
+                                    </p:column>
+                                    <p:column headerText="quantité">
+                                        <h:outputText value="#{item.DLQte}"/>
+                                    </p:column>
+                                    <p:column headerText="TTC">
+                                        <h:outputText value="#{item.DLTotalTTC}"/>
+                                    </p:column>
+                                    <p:column headerText="taux taxe">
+                                        <h:outputText value="#{item.DLtauxtaxe}"/>
+                                    </p:column>
+                                    <p:column headerText="total taxe">
+                                        <h:outputText value="#{item.DLtotaltaxe}"/>
+                                    </p:column>
+                                    <p:column headerText="depôt">
+                                        <h:outputText value="#{item.depot}"/>
+                                    </p:column>
+                                    <p:column headerText="utilisateur">
+                                        <h:outputText value="#{item.utilisateur}"/>
+                                    </p:column>
+                                    <p:column class="lagercolumn" exportable="false" headerText="supprimer">
+                                        <p:commandButton type="button" onclick="PF(#{item.dlId}).show()" icon="ui-icon-trash"/>
+                                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.dlId}">
+                                            <p:commandButton value="oui" onclick="PF(#{item.dlId}).hide()"  update="montableau " oncomplete="PF(#{item.dlId}).hide()"/>
+                                            <p:commandButton value="non" onclick="PF(#{item.dlId}).hide()" type="button" />
+                                        </p:confirmDialog>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+
+                    </h:form>
+                <h:form>
+    <p:dataTable id="tbl" var="car" value="#{dataExporterView.cars}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                 paginator="true" rows="10" style="margin-bottom:20px">
+ 
+        <f:facet name="{Exporters}">
+            <h:commandLink>
+                <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                <p:dataExporter type="xls" target="tbl" fileName="cars" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                <p:dataExporter type="csv" target="tbl" fileName="cars" />
+            </h:commandLink>
+ 
+            <h:commandLink>
+                <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                <p:dataExporter type="xml" target="tbl" fileName="cars" />
+            </h:commandLink>
+        </f:facet>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Id" />
+            </f:facet>
+            <h:outputText value="#{car.id}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Year"/>
+            </f:facet>
+            <h:outputText value="#{car.year}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Brand" />
+            </f:facet>
+            <h:outputText value="#{car.brand}" />
+        </p:column>
+ 
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Color" />
+            </f:facet>
+            <h:outputText value="#{car.color}" />
+        </p:column>
+    </p:dataTable>
+ 
+    <h3>Export Page Data Only</h3>
+    <h:commandLink>
+        <p:graphicImage name="/demo/images/excel.png" />
+        <p:dataExporter type="xls" target="tbl" fileName="cars" pageOnly="true"/>
+    </h:commandLink>
+ 
+    <h:commandLink>
+        <p:graphicImage name="/demo/images/pdf.png" />
+        <p:dataExporter type="pdf" target="tbl" fileName="cars" pageOnly="true" />
+    </h:commandLink>
+ 
+    <h:commandLink>
+        <p:graphicImage name="/demo/images/csv.png" />
+        <p:dataExporter type="csv" target="tbl" fileName="cars" pageOnly="true" />
+    </h:commandLink>
+ 
+    <h:commandLink>
+        <p:graphicImage name="/demo/images/xml.png" />
+        <p:dataExporter type="xml" target="tbl" fileName="cars" pageOnly="true" />
+    </h:commandLink>
+</h:form>
+                </f:view>
+        <script src="styljs.js">
+        </script>
+                </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

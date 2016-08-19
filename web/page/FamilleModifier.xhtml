@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"      
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+          
+                <f:metadata>
+                    <f:viewParam name="id_paramFamille" value="#{familleBean.paramFamille}"/>
+                </f:metadata> 
+                <f:event type="preRenderView" listener="#{familleBean.param_modif_famille()}"></f:event>
+       
+        <h:form > 
+                <p:fieldset legend="modifier" toggleable="true">
+                        <h:panelGrid  columns="3">                           
+                            <h:outputLabel  value="Nom :" />
+                            <b:inputText  id="nom_f" value="#{familleBean.nom_f}" required="true" requiredMessage="veuillez entrer le libelle de la famille" maxlength="50">
+                                <f:ajax event="blur" render="nomMessage" />                                
+                            </b:inputText>
+                            <p:message id="nomMessage" for="nom_f" />
+                            <b:commandButton value="modifier" look="primary" icon="save"  action="#{familleBean.modifierFamille()}" />
+                            <b:commandButton value="Annuler" action="Famille.xhtml?face-redirect=true" look="danger"/>
+                            
+                        </h:panelGrid> 
+            </p:fieldset>
+      </h:form>
+ </h:body>
+</html>
+

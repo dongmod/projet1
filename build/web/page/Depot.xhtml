@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+       <link rel="stylesheet" type="text/css" href="assets/css/demo.css"/>
+    </h:head>
+    <h:body>
+       <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+      
+         <h:form > 
+        <p:fieldset  collapsed="true" legend="ajouter un depôt" toggleable="true">
+            <h:panelGrid   columns="3">               
+                <h:outputLabel  value="nom :" />
+                <b:inputText  id="nom_dp" value="#{depotBean.nom_dp}" placeholder="nom" required="true" requiredMessage="veuillez entrer le nom du dépot" maxlength="50">
+                    <f:ajax event="blur" render="nomMessage" />
+                    <f:validator binding="#{depotExiste}" />
+                    <f:validateLength minimum="3"/>
+                </b:inputText>
+                <p:message id="nomMessage" for="nom_dp" /> 
+                <p:growl globalOnly="true"/>             
+            </h:panelGrid> 
+                  <b:row>
+                    <b:column span="2"  >
+                        <b:commandButton value="Enregistrer" look="primary" icon="save" action="#{depotBean.enregistrerDepot()}" />
+                    </b:column>
+                    <b:column span="2">
+                      <b:commandButton value="Annuler" look="danger"  type="reset" />
+                    </b:column>
+                  </b:row>
+
+            </p:fieldset>  
+                    </h:form>
+                   
+                
+                            <f:view>
+                                <h:form style=" padding: 5px;margin-top: 1px">
+                                    <b:panel title="liste des depôts " look="primary" collapsible="false">
+                                    <p:dataTable value="#{depotBean.mesDepots()}" var="item" id="montableau" paginator="true" rows="10">
+                                       
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Nom"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.dpNom}"/>
+                                        </p:column>
+                                        
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Agence"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.agId.AGnom}"/>
+                                        </p:column>
+                                        <p:column exportable="false">
+                                        <f:facet name="header">
+                                            <h:outputText value="Modifier"/>
+                                        </f:facet>
+                                        <h:link value="modifier" outcome="DepotModifier">
+                                            <f:param value="#{item.dpId}" name="id_paramDepot"/>
+                                        </h:link>
+                                        
+                                    </p:column>
+                                        <p:column class="lagercolumn"  exportable="false">
+                                    <p:commandButton type="button" onclick="PF(#{item.dpId}).show()"  icon="ui-icon-trash"/>
+                                    <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.dpId}">
+                                        <p:commandButton value="oui" onclick="PF(#{item.dpId}).hide();" actionListener="#{depotBean.supprimerDept(item.dpId)}" update="montableau " oncomplete="PF(#{item.dpId}).hide()"/>
+                                    <p:commandButton value="non" onclick="PF(#{item.dpId}).hide();" type="button" />
+                                    </p:confirmDialog>
+                            </p:column>
+                                    </p:dataTable>
+                                        
+ <p:panel header="Exportation">  
+<p:commandButton ajax="false" icon="ui-icon-print" >
+<p:dataExporter type="pdf" target="montableau" fileName="export"/>
+</p:commandButton>
+</p:panel>                       
+                                        </b:panel>
+                                </h:form>
+                            </f:view>
+            </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

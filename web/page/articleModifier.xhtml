@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      <h:head>
+       <link href="styl.css"  rel="stylesheet" type="text/css" />
+      </h:head>
+      <h:body>
+          <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+
+                <f:metadata>
+                    <f:viewParam name="art" value="#{articleBean.param_article}"/>
+                    </f:metadata>
+                <f:event type="preRenderView" listener="#{articleBean.param_modif_article()}" >
+                </f:event>
+        
+          <h:form id="formcoll">
+              <p:fieldset legend="Modifier un article" toggleable="true">
+                        <h:panelGrid   columns="3" >  
+                        <h:outputLabel value="Famille " />                        
+                        <b:selectOneMenu id="agenceselectionne" value="#{articleBean.maFamille}" size="1" >
+                                <f:selectItems value="#{articleBean.listFamille}"  />                 	   							
+                         </b:selectOneMenu>
+                        <h:outputLabel  /> 
+                            <h:outputLabel  value="Désignation :" />
+                            <b:inputText value="#{articleBean.designation}" required="true" placeholder="désignation" id="id2" requiredMessage="veuillez remplir ce champ!">
+                                <f:ajax event="blur" render="desigMessage" />
+                            </b:inputText>
+                            <p:message id="desigMessage" for="id2" />
+                            
+                            <h:outputLabel  value="Code Barre :" />                           
+                            <b:inputText value="#{articleBean.codeBare}" placeholder="code barre" onkeyup="verif_nombre(this)"   id="id3" >
+                               
+                            </b:inputText>
+                            <h:outputLabel/>
+                            
+                            <h:outputLabel  value="Prix d'achat :" />
+                            <b:inputText value="#{articleBean.prixAchat}" required="true" placeholder="prix d'achat" onkeyup="verif_nombre(this)"   id="id4"  validator="#{articleBean.validerCol() }" requiredMessage="veuillez remplir ce champ!">
+                                <f:ajax event="blur" render="prixvmessage" />
+                                
+                            </b:inputText>
+                            <p:message for="id4" id="prixvmessage" />
+                            
+                           <h:outputLabel  value="Prix de vente :" />                            
+                            <b:inputText value="#{articleBean.prixVente}" placeholder="prix de vente" required="true" onkeyup="verif_nombre(this)"   id="id5"  requiredMessage="veuillez remplir ce champ!">
+                                <f:ajax event="blur" render="prixamessage" />
+                            </b:inputText>
+                          
+                            <p:message for="id5" id="prixamessage" />
+                            
+                            <h:outputLabel  value="Stock Minimal :" />
+                            <b:inputText value="#{articleBean.stockAlert}" placeholder="stock minimal"  required="true" id="id6"  onkeyup="verif_nombre(this)"    requiredMessage="veuillez remplir ce champ!">                                
+                            <f:ajax event="blur" render="stockmessage" />
+                            </b:inputText>
+                             <p:message for="id6" id="stockmessage" />
+                                          
+                         <b:commandButton value="modifier" type="submit" action="#{articleBean.modifart()}" look="success" />
+                         <b:commandButton value="annuler"  look="danger" action="article.xhtml?faces-redirect=true"/>
+                        </h:panelGrid>
+                         <p:growl globalOnly="true"  />
+                                       
+              </p:fieldset>
+                    </h:form>
+           <script src="styljs.js">
+            
+        </script>
+                 </ui:define>
+      </ui:composition>
+    </h:body>
+</html>
+

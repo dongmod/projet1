@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <title>documents de stocks</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="barremenu.xhtml">
+            <ui:define name="contenu">
+        <f:view>
+            <h:form>
+                <p:dataTable value="#{mvtStock.listedocentete}" var="item" id="montableau">
+                    <f:facet name="header">
+                        <h:commandButton value="Nouveau" action="mvt_entre"/>
+                                 <p:growl globalOnly="true" id="msg"  />
+                        <h:link value="Retour" style="width: 60px" outcome="mvt_entre"/>
+                        <p:commandButton id="toggler" type="button" value="Columns" style="float:right" icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="montableau" trigger="toggler" />
+                        </f:facet>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DeId"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deId}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DeRef"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deRef}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DEdomaine"/>
+                        </f:facet>
+                        <h:outputText value="#{item.DEdomaine}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DEtype"/>
+                        </f:facet>
+                        <h:outputText value="#{item.DEtype}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DEdate"/>
+                        </f:facet>
+                        <h:outputText value="#{item.DEdate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DEcategorieComptable"/>
+                        </f:facet>
+                        <h:outputText value="#{item.DEcategorieComptable}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DEmontantDoc"/>
+                        </f:facet>
+                        <h:outputText value="#{item.DEmontantDoc}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Utilisateur"/>
+                        </f:facet>
+                        <h:outputText value="#{item.utilisateur}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Vue"/>
+                        </f:facet>
+                        <h:outputText value="#{item.vue}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="CjId"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cjId}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="CoId"/>
+                        </f:facet>
+                        <h:outputText value="#{item.coId}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="DpId"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dpId}"/>
+                    </p:column>
+                    
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="TrId"/>
+                        </f:facet>
+                        <h:outputText value="#{item.trId}"/>
+                    </p:column>
+                    <p:column class="lagercolumn" exportable="false" headerText="modifier">
+                        <h:link value="modifier" outcome="mvt_entreModif">
+                            <f:param value="#{item.deId}" name="param_liste_doc"/>
+                        </h:link>
+                    </p:column>
+                    <p:column class="lagercolumn" exportable="false" headerText="supprimer">
+                        <p:commandButton type="button" onclick="PF(#{item.deId}).show()" icon="ui-icon-trash"/>
+                        <p:confirmDialog message="voulez vous vraiment supprimer ?" header="suppression" severity="alert" widgetVar="#{item.deId}">
+                            <p:commandButton value="oui" onclick="PF(#{item.deId}).hide()" actionListener="#{mvtStock.suppressiondocLigne(item.deId)}" update="montableau" oncomplete="PF(#{item.deId}).hide()"/>
+                    <p:commandButton value="non" onclick="PF(#{item.deId}).hide()" type="button" />
+                        </p:confirmDialog>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h1>Recherche d'un Client</h1>
+            <h:form id="form">
+                <h:outputLabel value="Nom du client : " for="clientName" />
+                <p:autoComplete id="clientName" value="#{mvtStock.selectedClient}"   
+                                completeMethod="#{mvtStock.complete}" />
+            </h:form>
+        </f:view>
+        </ui:define>
+      </ui:composition>        
+    </h:body>
+</html>
+
